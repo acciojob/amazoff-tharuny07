@@ -109,6 +109,7 @@ OrderService orderService=new OrderService();
         Integer countOfOrders = 0;
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
+        countOfOrders=orderService.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
 
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }

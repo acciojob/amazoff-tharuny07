@@ -135,7 +135,7 @@ public class OrderRepository {
    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
         int countOfOrders=0;
        //List<String> list=partnerOrderDB.get(partnerId);
-       int deliveryTime=Integer.parseInt(time.substring(0,2))*60+Integer.parseInt(time.substring(3));
+       int deliveryTime=Integer.valueOf(time.substring(0,2))*60+Integer.valueOf(time.substring(3));
        if(partnerOrderDB.containsKey(partnerId)) {
            List<String> list=partnerOrderDB.get(partnerId);
            for (String s : list) {
