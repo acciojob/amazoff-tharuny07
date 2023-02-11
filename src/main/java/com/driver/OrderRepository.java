@@ -109,19 +109,44 @@ public class OrderRepository {
 
     }
     public String getLastDeliveryTimeByPartnerId(String partnerId){
+        int time=0;
           List<String> list=partnerOrderDB.get(partnerId);
-          String orderId=list.get(list.size()-1);
-          int deliveryTime=orderDB.get(orderId).getDeliveryTime();
-          double time=deliveryTime/60;
-          String timeS=Double.toString(time);
-          String[] hourMin=timeS.split(".");
-          String newTime="";
-          newTime.concat(hourMin[0]+":"+hourMin[1]);
+          for(String s:list){
+              if(orderDB.containsKey(s)){
+                  Order currOrder=orderDB.get(s);
+                  time=Math.max(time, currOrder.getDeliveryTime());
+              }
+          }
 
-          return newTime;
+          int hour=time/60;
+          int min=time%60;
+
+          String hourInString=String.valueOf(hour);
+          String minInString=String.valueOf(min);
+
+          if(hourInString.length()==1){
+              hourInString="0"+hourInString;
+          }
+          if(minInString.length()==1){
+              minInString="0"+minInString;
+          }
+          return hourInString+":"+minInString;
     }
-//    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
-//
-//    }
+   public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
+        int countOfOrders=0;
+       List<String> list=partnerOrderDB.get(partnerId);
+       int deliveryTime=Integer.parseInt(time.substring(0,2))*60+Integer.parseInt(time.substring(3,5));
+
+       for(String s:list)
+       {
+           if(orderDB.containsKey(s)){
+               Order currOrder=orderDB.get(s);
+               if(deliveryTime<currOrder.getDeliveryTime()){
+                   countOfOrders+=1;
+               }
+           }
+       }
+       return countOfOrders;
+   }
 
 }
