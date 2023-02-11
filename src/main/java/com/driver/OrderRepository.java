@@ -111,7 +111,12 @@ public class OrderRepository {
     public String getLastDeliveryTimeByPartnerId(String partnerId){
           List<String> list=partnerOrderDB.get(partnerId);
           String orderId=list.get(list.size()-1);
-          return Integer.toString(orderDB.get(orderId).getDeliveryTime());
+          int deliveryTime=orderDB.get(orderId).getDeliveryTime();
+          double time=deliveryTime/60;
+          String timeS=Double.toString(time);
+          String[] hourMin=timeS.split(".");
+
+          return hourMin[0]+":"+hourMin[1];
     }
 //    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
 //
