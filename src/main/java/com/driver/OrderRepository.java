@@ -17,13 +17,14 @@ public class OrderRepository {
         String orderId=order.getId();
         orderDB.put(orderId,order);
     }
-    public void addPartner(String parnerId){
-        DeliveryPartner deliveryPartner=new DeliveryPartner(parnerId);
+    public void addPartner(String partnerId){
+        DeliveryPartner deliveryPartner=new DeliveryPartner(partnerId);
        // deliveryPartner.setNumberOfOrders(deliveryPartner.getNumberOfOrders()+1);
 
-        partnerDB.put(parnerId,deliveryPartner);
+        partnerDB.put(partnerId,deliveryPartner);
     }
     public void addOrderPartnerPair(String orderId,String partnerId){
+
         DeliveryPartner partner=partnerDB.get(partnerId);
         partner.setNumberOfOrders(partner.getNumberOfOrders()+1);
         partnerDB.put(partnerId,partner);
@@ -46,15 +47,21 @@ public class OrderRepository {
     }
     public Order getOrderById(String orderId)
     {
+        if(!orderDB.containsKey(orderId)) return null;
         return orderDB.get(orderId);
     }
     public DeliveryPartner getPartnerById(String partnerId){
+        if(!partnerDB.containsKey(partnerId)) return null;
         return partnerDB.get(partnerId);
     }
     public int getOrderCountByPartnerId(String partnerId){
+        if(!partnerOrderDB.containsKey(partnerId)){
+            return 0;
+        }
           return partnerOrderDB.get(partnerId).size();
     }
     public List<String> getOrdersByPartnerId(String partnerId){
+        if(!partnerOrderDB.containsKey(partnerId)) return new ArrayList<>();
         return partnerOrderDB.get(partnerId);
     }
     public List<String> getAllOrders()
