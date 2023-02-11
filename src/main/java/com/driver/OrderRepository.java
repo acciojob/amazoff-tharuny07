@@ -115,8 +115,10 @@ public class OrderRepository {
           double time=deliveryTime/60;
           String timeS=Double.toString(time);
           String[] hourMin=timeS.split(".");
+          String newTime="";
+          newTime.concat(hourMin[0]+":"+hourMin[1]);
 
-          return hourMin[0]+":"+hourMin[1];
+          return newTime;
     }
 //    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
 //
