@@ -134,15 +134,16 @@ public class OrderRepository {
     }
    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
         int countOfOrders=0;
-       List<String> list=partnerOrderDB.get(partnerId);
-       int deliveryTime=Integer.parseInt(time.substring(0,2))*60+Integer.parseInt(time.substring(3,5));
-
-       for(String s:list)
-       {
-           if(orderDB.containsKey(s)){
-               Order currOrder=orderDB.get(s);
-               if(deliveryTime<currOrder.getDeliveryTime()){
-                   countOfOrders+=1;
+       //List<String> list=partnerOrderDB.get(partnerId);
+       int deliveryTime=Integer.parseInt(time.substring(0,2))*60+Integer.parseInt(time.substring(3));
+       if(partnerOrderDB.containsKey(partnerId)) {
+           List<String> list=partnerOrderDB.get(partnerId);
+           for (String s : list) {
+               if (orderDB.containsKey(s)) {
+                   Order currOrder = orderDB.get(s);
+                   if (deliveryTime < currOrder.getDeliveryTime()) {
+                       countOfOrders += 1;
+                   }
                }
            }
        }
